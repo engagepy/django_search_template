@@ -1,7 +1,7 @@
 {% extends "product/base.html" %}
 
 {% block content %}
-    <h1>Product List</h1>
+    <h1>Product List {{object_list.count}}</h1>
     <input type="search" id="search" placeholder="Search products...">
     
     <div id="search-results" data-initial-results="{% for product in object_list %}<p>{{ product.name }} - {{ product.category.name }} - {{ product.manufacturer.name }}</p>{% endfor %}">
