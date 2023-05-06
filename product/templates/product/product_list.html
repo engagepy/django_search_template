@@ -1,0 +1,42 @@
+{% extends "product/base.html" %}
+
+{% block content %}
+    <h1>Product List</h1>
+    <input type="search" id="search" placeholder="Search products...">
+    
+    <div id="search-results" data-initial-results="{% for product in object_list %}<p>{{ product.name }} - {{ product.category.name }} - {{ product.manufacturer.name }}</p>{% endfor %}">
+        {% for product in object_list %}
+            <p>{{ product.name }} - {{ product.category.name }} - {{ product.manufacturer.name }} </p>
+        {% endfor %}
+    </div>
+    
+    <div id="create-button" style="display:none;">
+        <a href="{% url 'product_create' %}">Create a new product</a>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById("search");
+        const resultsContainer = document.getElementById("search-results");
+        const initialResults = resultsContainer.getAttribute("data-initial-results");
+        const createButton = document.getElementById("create-button");
+
+        searchInput.addEventListener("input", async (event) => {
+            const searchTerm = event.target.value;
+
+            if (searchTerm.trim() === "") {
+                resultsContainer.innerHTML = initialResults;
+                createButton.style.display = "none";
+                return;
+            }
+
+            const response = await fetch(`{% url 'product_search' %}?search=${searchTerm}`);
+            const data = await response.json();
+
+            resultsContainer.innerHTML = data.map(product => `<p>${product.name} - ${product.category_name} - ${product.manufacturer_name}</p>`).join("");
+            createButton.style.display = data.length === 0 ? "block" : "none";
+        });
+
+        // Fix: Trigger the input event initially to handle the case when the page is loaded with a search query.
+        searchInput.dispatchEvent(new Event("input"));
+    </script>
+{% endblock %}

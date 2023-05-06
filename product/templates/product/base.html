@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product App</title>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'product_list' %}">Products</a>
+        <a href="{% url 'category_list' %}">Categories</a>
+        <a href="{% url 'manufacturer_list' %}">Manufacturer</a>
+        <a  href="{% url 'tag_list' %}">Tags</a>
+    
+    </nav>
+    <div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

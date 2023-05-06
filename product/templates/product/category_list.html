@@ -1,0 +1,15 @@
+{% extends "product/base.html" %}
+
+{% block content %}
+<h1>Category List</h1>
+<form method="get">
+    <input type="search" name="search" placeholder="Search categories...">
+    <button type="submit">Search</button>
+</form>
+
+{% for product in object_list %}
+    <p>{{ product.name }}</p>
+{% endfor %}
+
+<a href="{% url 'category_create' %}">Create a new category</a>
+{% endblock %}
